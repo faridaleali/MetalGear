@@ -18,7 +18,7 @@ public class Mapa {
 
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                celdas[i][j] = new Celda();
+                celdas[i][j] = new Celda(i, j);
             }
         }
     }
@@ -55,6 +55,14 @@ public class Mapa {
 
     public Celda getCeldaObjeto(int fila, int columna) {
         return celdas[fila][columna];
+    }
+
+    public int getCeldaPosicionX(int fila, int columna) {
+        return celdas[fila][columna].getPosicionX();
+    }
+
+    public int getCeldaPosicionY(int fila, int columna) {
+        return celdas[fila][columna].getPosicionY();
     }
 
     public String getCeldaNombre(int fila, int columna) {

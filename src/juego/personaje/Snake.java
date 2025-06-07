@@ -7,7 +7,6 @@ import juego.objeto.Objeto;
 public class Snake extends Personaje {
 
     private Objeto objetoRecogido;
-
     private int vida;
     private final int vidaMaxima = 100;
 
@@ -38,7 +37,7 @@ public class Snake extends Personaje {
         }
 
         Celda celdaDestino = mapa.getCeldaObjeto(nuevaX, nuevaY);
-        String nombreCelda = celdaDestino.getNombre();
+        String nombreCelda = mapa.getCeldaNombre(nuevaX, nuevaY);
 
         if (nombreCelda.equals("H")) {
             if (objetoRecogido != null) {
@@ -53,58 +52,56 @@ public class Snake extends Personaje {
 
         if (nombreCelda.equals("P")) {
             if (objetoRecogido != null) {
+
                 for (int i = 0; i <= 2; i++) {
+                    int nuevaFilaArriba = nuevaX - i;
+                    int nuevaFilaAbajo = nuevaX + i;
+                    int nuevaColIzquierda = nuevaY - i;
+                    int nuevaColDerecha = nuevaY + i;
 
-                    int nuevaFilaArriba = posicionX + i;
-                    int nuevaFilaAbajo = posicionX - i;
-                    int nuevaColArriba = posicionY + i;
-                    int nuevaColAbajo = posicionY - i;
-
-                    if (mapa.posicionValida(posicionX, nuevaColArriba)) {
-                        Celda celda = mapa.getCeldaObjeto(posicionX, nuevaColArriba);
+                    if (mapa.posicionValida(nuevaX, nuevaColIzquierda)) {
+                        Celda celda = mapa.getCeldaObjeto(nuevaX, nuevaColIzquierda);
                         if (celda.getNombre().equals("G")) {
                             System.out.println("Te capturaron: enemigo escuchó la explosión horizontalmente.");
-                            return 2;
+                            return 4;
                         }
                     }
-                    if (mapa.posicionValida(posicionX, nuevaColAbajo)) {
-                        Celda celda = mapa.getCeldaObjeto(posicionX, nuevaColAbajo);
+                    if (mapa.posicionValida(nuevaX, nuevaColDerecha)) {
+                        Celda celda = mapa.getCeldaObjeto(nuevaX, nuevaColDerecha);
                         if (celda.getNombre().equals("G")) {
                             System.out.println("Te capturaron: enemigo escuchó la explosión horizontalmente.");
-                            return 2;
+                            return 4;
                         }
                     }
-                    if (mapa.posicionValida(nuevaFilaArriba, posicionY)) {
-                        Celda celda = mapa.getCeldaObjeto(nuevaFilaArriba, posicionY);
+
+                    if (mapa.posicionValida(nuevaFilaArriba, nuevaY)) {
+                        Celda celda = mapa.getCeldaObjeto(nuevaFilaArriba, nuevaY);
                         if (celda.getNombre().equals("G")) {
                             System.out.println("Te capturaron: enemigo escuchó la explosión verticalmente.");
-                            return 2;
+                            return 4;
                         }
                     }
-                    if (mapa.posicionValida(nuevaFilaAbajo, posicionY)) {
-                        Celda celda = mapa.getCeldaObjeto(nuevaFilaAbajo, posicionY);
+                    if (mapa.posicionValida(nuevaFilaAbajo, nuevaY)) {
+                        Celda celda = mapa.getCeldaObjeto(nuevaFilaAbajo, nuevaY);
                         if (celda.getNombre().equals("G")) {
                             System.out.println("Te capturaron: enemigo escuchó la explosión verticalmente.");
-                            return 2;
+                            return 4;
                         }
                     }
                 }
 
                 System.out.println("Llegaste a la puerta con la C4. ¡Nivel completado!");
                 return 3;
-
             } else {
                 System.out.println("Necesitas tener la C4 para completar el nivel.");
                 return -1;
             }
         }
 
-
         if (celdaDestino.getTipo() != null && objetoRecogido == null) {
             objetoRecogido = celdaDestino.getTipo();
             System.out.println(objetoRecogido.recoger());
-
-            mapa.setCelda(nuevaX, nuevaY, new Celda());
+            mapa.setCelda(nuevaX, nuevaY, celdaDestino);
         }
 
         if (!mapa.celdaLibre(nuevaX, nuevaY)) {
@@ -112,13 +109,12 @@ public class Snake extends Personaje {
             return -1;
         }
 
-        mapa.setCelda(posicionX, posicionY, new Celda());
-
+        mapa.setCelda(posicionX, posicionY, new Celda(posicionX, posicionY)); // borra celda anterior
         posicionX = nuevaX;
         posicionY = nuevaY;
 
-        Celda nuevaCelda = new Celda("S");
-        mapa.setCelda(posicionX, posicionY, nuevaCelda);
+        Celda nuevaCelda = new Celda("S", posicionX, posicionY);
+        mapa.setCelda(posicionX, posicionY, nuevaCelda); // coloca Snake en nueva celda
 
         return 1;
     }
@@ -132,7 +128,7 @@ public class Snake extends Personaje {
     }
 
     public void setVida(int vida) {
-        this.vida = Math.max(0, Math.min(vida, vidaMaxima)); // mantiene entre 0 y 100
+        this.vida = Math.max(0, Math.min(vida, vidaMaxima));
     }
 
     public void recibirDanio(int danio) {

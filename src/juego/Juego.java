@@ -73,6 +73,7 @@ public class Juego {
 
                         if (resultado == 2) iniciarMisionSecundaria();
                         else if ( resultado == 3) iniciarMisionFinal();
+                        else if ( resultado == 4 ) menuPrincipal();
 
                         guardia.mover(opcion, mapa);
 

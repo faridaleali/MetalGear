@@ -24,29 +24,44 @@ public class Guardia extends Personaje implements Enemigo {
 
                     int direccion = rand.nextInt(4);
                     switch (direccion) {
-                        case 0 -> nuevaX--;
-                        case 1 -> nuevaX++;
-                        case 2 -> nuevaY--;
-                        case 3 -> nuevaY++;
+                        case 0 -> nuevaX--; // arriba
+                        case 1 -> nuevaX++; // abajo
+                        case 2 -> nuevaY--; // izquierda
+                        case 3 -> nuevaY++; // derecha
                     }
 
+                    // Asegurarse de que no haya otro guardia (ni temporal "g") en destino
                     if (mapa.posicionValida(nuevaX, nuevaY) &&
-                        !mapa.getCeldaNombre(nuevaX, nuevaY).equals("H") &&
-                        !mapa.getCeldaNombre(nuevaX, nuevaY).equals("C4") &&
-                        !mapa.getCeldaNombre(nuevaX, nuevaY).equals("L") &&
-                        !mapa.getCeldaNombre(nuevaX, nuevaY).equals("P") &&
-                        mapa.celdaLibre(nuevaX, nuevaY)) {
+                            mapa.celdaLibre(nuevaX, nuevaY) &&
+                            !mapa.getCeldaNombre(nuevaX, nuevaY).equals("H") &&
+                            !mapa.getCeldaNombre(nuevaX, nuevaY).equals("C4") &&
+                            !mapa.getCeldaNombre(nuevaX, nuevaY).equals("L") &&
+                            !mapa.getCeldaNombre(nuevaX, nuevaY).equals("P") &&
+                            !mapa.getCeldaNombre(nuevaX, nuevaY).equals("G") &&
+                            !mapa.getCeldaNombre(nuevaX, nuevaY).equals("g")) {
 
-                        mapa.setCelda(i, j, new Celda());
+                        // Liberar la celda original
+                        mapa.setCelda(i, j, new Celda(i, j));
 
-                        Celda nuevaCelda = new Celda("G");
-                        mapa.setCelda(nuevaX, nuevaY, nuevaCelda);
+                        // Marcar temporalmente la nueva posición como "g"
+                        mapa.setCelda(nuevaX, nuevaY, new Celda("g", nuevaX, nuevaY));
                     }
                 }
             }
         }
+
+        // Convertir todos los "g" en "G"
+        for (int i = 0; i < mapa.getFilas(); i++) {
+            for (int j = 0; j < mapa.getColumnas(); j++) {
+                if ("g".equals(mapa.getCeldaNombre(i, j))) {
+                    mapa.setCelda(i, j, new Celda("G", i, j));
+                }
+            }
+        }
+
         return 1;
     }
+
 }
 
 
