@@ -6,17 +6,23 @@ public class Celda {
     private boolean ocupada;
     private String nombre;
     private Objeto tipo;
+    private int posicionX;
+    private int posicionY;
 
-    public Celda() {
+    public Celda(int posicionX, int posicionY) {
         this.nombre = " ";
         this.tipo = null;
         this.ocupada = false;
+        this.posicionX = posicionX;
+        this.posicionY = posicionY;
     }
 
-    public Celda(String nombre) {
+    public Celda(String nombre, int posicionX, int posicionY) {
         this.nombre = nombre;
         this.tipo = asignarObjeto(nombre);
         this.ocupada = nombre.equals("S") || nombre.equals("G");
+        this.posicionX = posicionX;
+        this.posicionY = posicionY;
     }
 
     public void setCeldaPersonaje(String nombre) {
@@ -65,6 +71,22 @@ public class Celda {
 
     public Objeto getTipo() {
         return tipo;
+    }
+
+    public int getPosicionX() {
+        return posicionX;
+    }
+
+    public void setPosicionX(int posicionX) {
+        this.posicionX = posicionX;
+    }
+
+    public int getPosicionY() {
+        return posicionY;
+    }
+
+    public void setPosicionY(int posicionY) {
+        this.posicionY = posicionY;
     }
 
     public void setTipo(Objeto tipo) {
