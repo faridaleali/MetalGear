@@ -6,9 +6,9 @@ import juego.objeto.Objeto;
 
 public class Snake extends Personaje {
 
-    private Objeto objetoRecogido;
-    private int vida;
-    private final int vidaMaxima = 100;
+    protected Objeto objetoRecogido;
+    protected int vida;
+    protected final int vidaMaxima = 100;
 
     public Snake(int posicionX, int posicionY, String personaje) {
         super(posicionX, posicionY, personaje);

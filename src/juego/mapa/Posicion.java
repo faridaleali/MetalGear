@@ -4,9 +4,9 @@ import juego.personaje.Personaje;
 
 public class Posicion {
 
-    public Personaje personaje;
-    public int PosicionX;
-    public int PosicionY;
+    private Personaje personaje;
+    private int PosicionX;
+    private int PosicionY;
 
     public Posicion (int PosicionX, int PosicionY) {
         this.PosicionX = PosicionX;

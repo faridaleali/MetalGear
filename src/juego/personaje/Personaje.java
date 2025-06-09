@@ -4,9 +4,9 @@ import juego.mapa.Mapa;
 
 public abstract class Personaje {
 
-    String personaje;
-    int posicionX;
-    int posicionY;
+    protected String personaje;
+    protected int posicionX;
+    protected int posicionY;
 
     public Personaje(int posicionX, int posicionY, String personaje) {
         this.posicionX = posicionX;
