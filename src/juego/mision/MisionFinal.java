@@ -42,8 +42,9 @@ public class MisionFinal extends Mision {
             }
 
             if (eleccion == 1) {
-                int danio = metalGear.ataque();
-                metalGear.setVida(vidaRex - danio);
+                int danio = snake.ataque();
+                vidaRex = vidaRex - danio;
+                metalGear.setVida((vidaRex));
                 if (vidaRex < 0) vidaRex = 0;
                 System.out.println("\n¡Le diste a REX! (-" + danio + " HP)");
                 System.out.println("Vida de REX: " + vidaRex + " HP");
@@ -66,7 +67,9 @@ public class MisionFinal extends Mision {
                 System.out.println("¡Metal Gear ataca con un Cañón Láser! (-" + ataqueRex + " HP)");
             }
 
-            snake.setVida(vidaSnake - danioRecibido);
+            vidaSnake = (vidaSnake - danioRecibido);
+
+            snake.setVida(vidaSnake);
 
             if (vidaSnake < 0) vidaSnake = 0;
             System.out.println("Tu vida: " + vidaSnake + " HP");
