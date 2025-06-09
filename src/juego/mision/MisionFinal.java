@@ -2,8 +2,6 @@ package juego.mision;
 
 import juego.personaje.Snake;
 import juego.personaje.enemigo.MetalGear;
-
-import java.util.Random;
 import java.util.Scanner;
 
 public class MisionFinal extends Mision {
@@ -16,7 +14,6 @@ public class MisionFinal extends Mision {
     public void iniciar(Snake snake) {
         MetalGear metalGear = new MetalGear(0,0, "MetalGear");
         Scanner scanner = new Scanner(System.in);
-        Random random = new Random();
 
         int vidaSnake = snake.getVida();
         int vidaRex = metalGear.getVida();
@@ -45,7 +42,7 @@ public class MisionFinal extends Mision {
             }
 
             if (eleccion == 1) {
-                int danio = random.nextInt(21) + 10;
+                int danio = metalGear.ataque();
                 metalGear.setVida(vidaRex - danio);
                 if (vidaRex < 0) vidaRex = 0;
                 System.out.println("\n¡Le diste a REX! (-" + danio + " HP)");
@@ -57,11 +54,11 @@ public class MisionFinal extends Mision {
             if (vidaRex <= 0) break;
 
             // Turno de REX
-            int ataqueRex = random.nextInt(26) + 15;
+            int ataqueRex = metalGear.ataque();
             int danioRecibido = ataqueRex;
 
             if (eleccion == 2) {
-                int reduccion = random.nextInt(51) + 50; // 50% a 100%
+                int reduccion = metalGear.ataqueReducido(); // 50% a 100%
                 danioRecibido = ataqueRex * (100 - reduccion) / 100;
                 System.out.println("¡Metal Gear ataca con un Cañón Láser! (" + ataqueRex + " HP original)");
                 System.out.println("¡Esquivaste! Daño reducido a " + danioRecibido + " HP.");
