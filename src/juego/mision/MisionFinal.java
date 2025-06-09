@@ -1,8 +1,7 @@
 package juego.mision;
 
 import juego.personaje.Snake;
-
-import java.util.Random;
+import juego.personaje.enemigo.MetalGear;
 import java.util.Scanner;
 
 public class MisionFinal extends Mision {
@@ -13,11 +12,11 @@ public class MisionFinal extends Mision {
 
     @Override
     public void iniciar(Snake snake) {
+        MetalGear metalGear = new MetalGear(0,0, "MetalGear");
         Scanner scanner = new Scanner(System.in);
-        Random random = new Random();
 
         int vidaSnake = snake.getVida();
-        int vidaRex = 100;
+        int vidaRex = metalGear.getVida();
 
         System.out.println("\n¡Metal Gear REX aparece!");
         System.out.println("Tu vida: " + vidaSnake + " HP | Vida de REX: " + vidaRex + " HP");
@@ -43,8 +42,9 @@ public class MisionFinal extends Mision {
             }
 
             if (eleccion == 1) {
-                int danio = random.nextInt(21) + 10; // 10 a 30
-                vidaRex -= danio;
+                int danio = snake.ataque();
+                vidaRex = vidaRex - danio;
+                metalGear.setVida((vidaRex));
                 if (vidaRex < 0) vidaRex = 0;
                 System.out.println("\n¡Le diste a REX! (-" + danio + " HP)");
                 System.out.println("Vida de REX: " + vidaRex + " HP");
@@ -55,11 +55,11 @@ public class MisionFinal extends Mision {
             if (vidaRex <= 0) break;
 
             // Turno de REX
-            int ataqueRex = random.nextInt(26) + 15;
+            int ataqueRex = metalGear.ataque();
             int danioRecibido = ataqueRex;
 
             if (eleccion == 2) {
-                int reduccion = random.nextInt(51) + 50; // 50% a 100%
+                int reduccion = metalGear.ataqueReducido(); // 50% a 100%
                 danioRecibido = ataqueRex * (100 - reduccion) / 100;
                 System.out.println("¡Metal Gear ataca con un Cañón Láser! (" + ataqueRex + " HP original)");
                 System.out.println("¡Esquivaste! Daño reducido a " + danioRecibido + " HP.");
@@ -67,7 +67,10 @@ public class MisionFinal extends Mision {
                 System.out.println("¡Metal Gear ataca con un Cañón Láser! (-" + ataqueRex + " HP)");
             }
 
-            vidaSnake -= danioRecibido;
+            vidaSnake = (vidaSnake - danioRecibido);
+
+            snake.setVida(vidaSnake);
+
             if (vidaSnake < 0) vidaSnake = 0;
             System.out.println("Tu vida: " + vidaSnake + " HP");
         }

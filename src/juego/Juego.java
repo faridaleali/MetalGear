@@ -16,7 +16,8 @@ public class Juego {
     protected Snake snake;
     protected Guardia guardia;
 
-    public Juego() { }
+    public Juego() {
+    }
 
     public void menuPrincipal() {
         Scanner scanner = new Scanner(System.in);
@@ -71,9 +72,9 @@ public class Juego {
                     case 4:
                         int resultado = snake.mover(opcion, mapa);
 
-                        if (resultado == 2) iniciarMisionSecundaria();
-                        else if ( resultado == 3) iniciarMisionFinal();
-                        else if ( resultado == 4 ) menuPrincipal();
+                        if (resultado == 2) menuMisionFinalizada(1);
+                        else if (resultado == 3) menuMisionFinalizada(2);
+                        else if (resultado == 4) menuPrincipal();
 
                         guardia.mover(opcion, mapa);
 
@@ -85,7 +86,6 @@ public class Juego {
                             menuPrincipal();
                             break;
                         }
-
                         break;
                     case 9:
                         System.out.println("Saliendo de la misión...");
@@ -103,6 +103,96 @@ public class Juego {
 
     }
 
+    public void menuMisionFinalizada(int mision) {
+        Scanner scanner = new Scanner(System.in);
+        int seleccion = 0;
+
+        do {
+            System.out.print(" \n1. Guardar la partida\n" +
+                    "2. Continuar sin guardar\n" +
+                    "9. Salir al menú principal\n\n" +
+                    "Elija su opción: ");
+
+            if (scanner.hasNextInt()) {
+                seleccion = scanner.nextInt();
+
+                switch (seleccion) {
+                    case 1:
+                        guardarMision(mision);
+                        break;
+                    case 2:
+                        if (mision == 1) {
+                            iniciarMisionSecundaria();
+                        } else if (mision == 2) {
+                            iniciarMisionFinal();
+                        }
+                        break;
+                    case 9:
+                        System.out.println("Volviendo al menú principal...");
+                        break;
+                    default:
+                        System.out.println("Opción inválida.");
+                }
+            } else {
+                System.out.println("Entrada no válida.");
+                scanner.next();
+            }
+
+        } while (seleccion != 9);
+    }
+
+    public void guardarMision(int mision) {
+
+        if (mision == 1) {
+            System.out.println("\nHaz elegido que quieres guardar la mision\n" +
+                    "Se ha guardado correctamente y para iniciar el nivel siguiente deberas\n" +
+                    "guardar el siguiente codigo ----------> 'MS-2'");
+            guardarContinuar(1);
+        } else if (mision == 2) {
+            System.out.println("Haz elegido que quieres guardar la mision\n" +
+                    "Se ha guardado correctamente y para iniciar el nivel siguiente deberas\n" +
+                    "guardar el siguiente codigo ----------> 'MF-1'");
+            guardarContinuar(2);
+        }
+    }
+
+    public void guardarContinuar(int mision) {
+
+        Scanner scanner = new Scanner(System.in);
+        int seleccion = 0;
+
+        do {
+            System.out.print("\nHaz elegido que quieres guardar la mision\n" +
+                    "1. Continuar\n" +
+                    "2. Ir al menu principal\n\n" +
+                    "Elija su opcion: ");
+
+            if (scanner.hasNextInt()) {
+                seleccion = scanner.nextInt();
+
+                switch (seleccion) {
+                    case 1:
+                        if (mision == 1) {
+                            iniciarMisionSecundaria();
+                        } else if (mision == 2) {
+                            iniciarMisionFinal();
+                        }
+                        break;
+                    case 2:
+                        menuPrincipal();
+                        break;
+                    default:
+                        System.out.println("Opción inválida.");
+                }
+            } else {
+                System.out.println("Entrada no válida.");
+                scanner.next();
+            }
+
+        } while (seleccion != 2);
+
+    }
+
     public void cargaMision() {
         Scanner scanner = new Scanner(System.in);
         String codigo;
@@ -110,9 +200,9 @@ public class Juego {
         System.out.print("Ingrese el codigo de guardado: ");
         codigo = scanner.next();
 
-        if(codigo.equals("MS-2")) {
+        if (codigo.equals("MS-2")) {
             iniciarMisionSecundaria();
-        } else if(codigo.equals("MF-1")) {
+        } else if (codigo.equals("MF-1")) {
             iniciarMisionFinal();
         } else {
             System.out.println("Codigo incorrecto, ingreselo nuevamente");
@@ -128,7 +218,7 @@ public class Juego {
 
         for (int i = 0; i < mapa.getFilas(); i++) {
             for (int j = 0; j < mapa.getColumnas(); j++) {
-                guardia = new Guardia(i,j, "G");
+                guardia = new Guardia(i, j, "G");
             }
         }
 
@@ -148,7 +238,7 @@ public class Juego {
 
         for (int i = 0; i < mapa.getFilas(); i++) {
             for (int j = 0; j < mapa.getColumnas(); j++) {
-                guardia = new Guardia(i,j, "G");
+                guardia = new Guardia(i, j, "G");
             }
         }
 

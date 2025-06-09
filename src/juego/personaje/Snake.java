@@ -4,11 +4,13 @@ import juego.mapa.Celda;
 import juego.mapa.Mapa;
 import juego.objeto.Objeto;
 
+import java.util.Random;
+
 public class Snake extends Personaje {
 
-    private Objeto objetoRecogido;
-    private int vida;
-    private final int vidaMaxima = 100;
+    protected Objeto objetoRecogido;
+    protected int vida;
+    protected final int vidaMaxima = 100;
 
     public Snake(int posicionX, int posicionY, String personaje) {
         super(posicionX, posicionY, personaje);
@@ -117,6 +119,13 @@ public class Snake extends Personaje {
         mapa.setCelda(posicionX, posicionY, nuevaCelda); // coloca Snake en nueva celda
 
         return 1;
+    }
+
+    public int ataque() {
+        Random random = new Random();
+        int ataqueSnake = random.nextInt(21) + 10;
+
+        return ataqueSnake;
     }
 
     public Objeto getObjetoRecogido() {
