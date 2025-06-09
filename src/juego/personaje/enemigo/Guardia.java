@@ -62,6 +62,11 @@ public class Guardia extends Personaje implements Enemigo {
         return 1;
     }
 
+    @Override
+    public int ataque() {
+        return 1;
+    }
+
 }
 
 
